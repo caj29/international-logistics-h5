@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>国际物流助手</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-icon">🌍</span>
+        <span class="brand-text">国际物流助手</span>
+      </div>
+      <div class="header-tabs">
+        <button class="header-tab active" data-page="home">运费查询</button>
+        <button class="header-tab" data-page="products">产品列表</button>
+        <button class="header-tab" data-page="sea">海运报价</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="main" id="main">
+
+    <!-- ========== 首页：运费计算器 ========== -->
+    <section class="page page-home active" id="page-home">
+
+      <!-- 查询表单 -->
+      <div class="query-form" id="queryForm">
+        <!-- 国家选择 -->
+        <div class="form-row">
+          <label class="form-label">目的国家</label>
+          <button class="form-select" id="btnCountry">
+            <span id="txtCountry">请选择国家</span>
+            <span class="select-arrow">▾</span>
+          </button>
+        </div>
+
+        <!-- 货物类型 -->
+        <div class="form-row">
+          <label class="form-label">货物类型</label>
+          <div class="cargo-chips" id="cargoChips">
+            <button class="chip active" data-type="普货">普货</button>
+            <button class="chip" data-type="内电">内电</button>
+            <button class="chip" data-type="纯电">纯电</button>
+            <button class="chip" data-type="化妆品">化妆品</button>
+            <button class="chip" data-type="液体">液体</button>
+            <button class="chip" data-type="粉末">粉末</button>
+            <button class="chip" data-type="食品">食品</button>
+            <button class="chip" data-type="品牌货">品牌货</button>
+          </div>
+        </div>
+
+        <!-- 重量输入 -->
+        <div class="form-row">
+          <label class="form-label">重量（克）</label>
+          <div class="weight-input-wrap">
+            <input type="number" class="weight-input" id="inpWeight" placeholder="500" min="1" max="99999999">
+            <span class="weight-unit">g</span>
+            <span class="weight-kg" id="txtKg">0.5 kg</span>
+          </div>
+          <div class="quick-weights">
+            <button class="qw-btn" data-g="500">0.5kg</button>
+            <button class="qw-btn" data-g="1000">1kg</button>
+            <button class="qw-btn" data-g="2000">2kg</button>
+            <button class="qw-btn" data-g="5000">5kg</button>
+            <button class="qw-btn" data-g="10000">10kg</button>
+            <button class="qw-btn" data-g="20000">20kg</button>
+            <button class="qw-btn" data-g="30000">30kg</button>
+          </div>
+        </div>
+
+        <!-- 尺寸输入（可选）-->
+        <div class="form-row">
+          <label class="form-label">尺寸（CM，可选）</label>
+          <div class="size-inputs">
+            <input type="number" class="size-input" id="inpLength" placeholder="长">
+            <span class="size-x">×</span>
+            <input type="number" class="size-input" id="inpWidth" placeholder="宽">
+            <span class="size-x">×</span>
+            <input type="number" class="size-input" id="inpHeight" placeholder="高">
+          </div>
+        </div>
+
+        <!-- 查询按钮 -->
+        <button class="btn-query" id="btnQuery">查询渠道</button>
+      </div>
+
+      <!-- 排序切换 -->
+      <div class="sort-bar" id="sortBar" style="display:none;">
+        <span class="sort-label">排序：</span>
+        <button class="sort-btn active" data-mode="price">💰 价格优先</button>
+        <button class="sort-btn" data-mode="speed">⚡ 时效优先</button>
+        <span class="result-count" id="txtCount"></span>
+      </div>
+
+      <!-- 产品列表 -->
+      <div class="product-list" id="productList"></div>
+
+      <!-- 加载更多 -->
+      <div class="load-more" id="loadMore" style="display:none;">
+        <span>加载更多...</span>
+      </div>
+
+      <!-- 空状态 -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-icon">📦</div>
+        <div class="empty-text">暂无匹配渠道</div>
+        <button class="empty-btn" id="btnClearFilter">清除筛选</button>
+      </div>
+
+    </section>
+
+    <!-- ========== 产品列表页 ========== -->
+    <section class="page page-products" id="page-products">
+      <div class="products-filter">
+        <input type="text" class="filter-input" id="inpProductSearch" placeholder="搜索产品名称...">
+      </div>
+      <div class="product-list" id="productListAll"></div>
+    </section>
+
+    <!-- ========== 海运报价页 ========== -->
+    <section class="page page-sea" id="page-sea">
+      <div class="sea-form">
+        <div class="form-row">
+          <label class="form-label">目的国家</label>
+          <button class="form-select" id="btnSeaCountry">
+            <span id="txtSeaCountry">请选择国家</span>
+            <span class="select-arrow">▾</span>
+          </button>
+        </div>
+        <div class="form-row">
+          <label class="form-label">重量（kg）</label>
+          <input type="number" class="weight-input" id="inpSeaWeight" placeholder="10" min="0.1" step="0.1">
+        </div>
+        <button class="btn-query" id="btnSeaQuery">查询海运报价</button>
+      </div>
+      <div class="sea-results" id="seaResults"></div>
+    </section>
+
+  </main>
+
+  <!-- 国家选择弹窗 -->
+  <div class="modal-overlay" id="modalCountry" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <span>选择国家</span>
+        <button class="modal-close" id="btnCloseCountry">✕</button>
+      </div>
+      <div class="modal-search">
+        <input type="text" class="modal-search-input" id="inpCountrySearch" placeholder="搜索国家名称...">
+      </div>
+      <div class="modal-body" id="countryList"></div>
+    </div>
+  </div>
+
+  <!-- 产品详情弹窗 -->
+  <div class="modal-overlay" id="modalDetail" style="display:none;">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <span id="detailTitle">产品详情</span>
+        <button class="modal-close" id="btnCloseDetail">✕</button>
+      </div>
+      <div class="modal-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <!-- 加载指示器 -->
+  <div class="loading-overlay" id="loading" style="display:none;">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
